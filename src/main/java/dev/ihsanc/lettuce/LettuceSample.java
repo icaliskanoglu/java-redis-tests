@@ -61,8 +61,6 @@ public class LettuceSample {
         if (enableTls) {
             logger.info("Starting lettuce with tls.");
             builder.withPassword(password)
-                    .withSsl(true)
-                    .withVerifyPeer(false)
                     .withStartTls(true);
         }
 
