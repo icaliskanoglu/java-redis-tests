@@ -17,13 +17,13 @@ public class LettuceSample {
     @Parameter(names = {"--host", "-h"}, description = "Host")
     public String host = "localhost";
 
-    @Parameter(names = {"--enable-tls"}, description = "Enable TLS")
+    @Parameter(names = {"--enable-tls"}, description = "Enable TLS", arity = 1)
     public boolean enableTls = false;
 
-    @Parameter(names = {"--enable-ssl"}, description = "Enable SSL")
+    @Parameter(names = {"--enable-ssl"}, description = "Enable SSL", arity = 1)
     public boolean enableSSL = false;
 
-    @Parameter(names = {"--verify-peer"}, description = "Verify Peer")
+    @Parameter(names = {"--verify-peer"}, description = "Verify Peer", arity = 1)
     public boolean verifyPeer = true;
 
     @Parameter(names = {"--connection-timeout", "=ct"}, description = "Connection timeout")
