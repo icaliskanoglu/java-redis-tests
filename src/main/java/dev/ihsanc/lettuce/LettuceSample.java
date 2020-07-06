@@ -23,6 +23,9 @@ public class LettuceSample {
     @Parameter(names = {"--enable-ssl"}, description = "Enable SSL")
     public boolean enableSSL = false;
 
+    @Parameter(names = {"--verify-peer"}, description = "Verify Peer")
+    public boolean verifyPeer = true;
+
     @Parameter(names = {"--connection-timeout", "=ct"}, description = "Connection timeout")
     public long connectionTimeout = RedisURI.DEFAULT_TIMEOUT;
 
@@ -63,7 +66,9 @@ public class LettuceSample {
                 .withTimeout(Duration.ofSeconds(connectionTimeout))
                 .withPassword(password)
                 .withSsl(enableSSL)
-                .withStartTls(enableTls).build();
+                .withStartTls(enableTls)
+                .withVerifyPeer(verifyPeer)
+                .build();
         logger.info("RedisURI: " + uri.toString() + ", URI: " + uri.toURI().toString());
         return uri;
     }
