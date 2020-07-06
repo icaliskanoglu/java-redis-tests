@@ -20,6 +20,9 @@ public class LettuceSample {
     @Parameter(names = {"--enable-tls"}, description = "Enable TLS")
     public boolean enableTls = false;
 
+    @Parameter(names = {"--enable-ssl"}, description = "Enable SSL")
+    public boolean enableSSL = false;
+
     @Parameter(names = {"--connection-timeout", "=ct"}, description = "Connection timeout")
     public long connectionTimeout = RedisURI.DEFAULT_TIMEOUT;
 
@@ -54,17 +57,13 @@ public class LettuceSample {
 
     RedisURI getRedisURIByHost() {
 
-        RedisURI.Builder builder = RedisURI.builder()
+        RedisURI uri = RedisURI.builder()
                 .withHost(host)
                 .withPort(port)
-                .withTimeout(Duration.ofSeconds(connectionTimeout));
-        if (enableTls) {
-            logger.info("Starting lettuce with tls.");
-            builder.withPassword(password)
-                    .withStartTls(true);
-        }
-
-        RedisURI uri = builder.build();
+                .withTimeout(Duration.ofSeconds(connectionTimeout))
+                .withPassword(password)
+                .withSsl(enableSSL)
+                .withStartTls(enableTls).build();
         logger.info("RedisURI: " + uri.toString() + ", URI: " + uri.toURI().toString());
         return uri;
     }
