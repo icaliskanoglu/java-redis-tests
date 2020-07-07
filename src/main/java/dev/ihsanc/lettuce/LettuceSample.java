@@ -2,6 +2,7 @@ package dev.ihsanc.lettuce;
 
 import com.beust.jcommander.*;
 import io.lettuce.core.*;
+import io.lettuce.core.api.*;
 import io.lettuce.core.cluster.*;
 import io.lettuce.core.cluster.api.*;
 import org.apache.logging.log4j.*;
@@ -32,22 +33,36 @@ public class LettuceSample {
     @Parameter(names = {"--password", "-pw"}, description = "Password")
     public String password;
 
+    @Parameter(names = {"--cluster"}, description = "Is Clluster", arity = 1)
+    public boolean cluster = true;
+
     private final Logger logger = LogManager.getLogger(this.getClass());
 
-    private StatefulRedisClusterConnection<String, String> connection;
+    private StatefulRedisClusterConnection<String, String> clusterConnection;
+    private StatefulRedisConnection<String, String> connection;
 
     public static void main(String[] args) {
         LettuceSample sample = new LettuceSample();
         JCommander j = new JCommander(sample);
         j.parse(args);
 
-        sample.connect();
+        if (sample.cluster) {
+            sample.connectToCluster();
+        } else {
+            sample.connect();
+        }
+    }
 
+    void connectToCluster() {
+        RedisClusterClient clusterClient = getClusterClient();
+        clusterConnection = clusterClient.connect();
+        String pong = clusterConnection.sync().ping();
+        logger.info("PING: " + pong);
     }
 
     void connect() {
-        RedisClusterClient clusterClient = getClusterClient();
-        connection = clusterClient.connect();
+        RedisClient client = getClient();
+        connection = client.connect();
         String pong = connection.sync().ping();
         logger.info("PING: " + pong);
     }
@@ -55,6 +70,11 @@ public class LettuceSample {
 
     RedisClusterClient getClusterClient() {
         RedisClusterClient client = RedisClusterClient.create(getRedisURIByHost());
+        return client;
+    }
+
+    RedisClient getClient() {
+        RedisClient client = RedisClient.create(getRedisURIByHost());
         return client;
     }
 
