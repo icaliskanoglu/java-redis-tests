@@ -22,4 +22,4 @@ if [[ -n "${EXTRA_JAVA_OPTS}" ]]; then
     JAVA_OPTS="$JAVA_OPTS $EXTRA_JAVA_OPTS"
 fi
 
-exec java ${JAVA_OPTS} -jar $HOME/service/service.jar "$@"
+exec java ${JAVA_OPTS} -cp $HOME/service/service.jar "$@"

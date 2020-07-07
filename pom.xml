@@ -22,6 +22,12 @@
             <groupId>io.lettuce</groupId>
             <artifactId>lettuce-core</artifactId>
             <version>5.1.3.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>netty-common</artifactId>
+                    <groupId>io.netty</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -43,6 +49,14 @@
             <version>1.78</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.redisson/redisson -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.13.2</version>
+
+        </dependency>
+
     </dependencies>
 
 
@@ -55,7 +69,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>dev.ihsanc.lettuce.LettuceSample</mainClass>
+                            <mainClass>dev.ihsanc.redis.LettuceSample</mainClass>
                             <classpathPrefix>./dependency-jars/</classpathPrefix>
                         </manifest>
                     </archive>
