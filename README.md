@@ -1,1 +1,1 @@
-# lettuce-sample
+# java-redis-samples
